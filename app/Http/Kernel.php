@@ -23,6 +23,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         'Fideloper\Proxy\TrustProxies',
         'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
+        'Barryvdh\Cors\HandleCors::class',
     ];
 
     /**
