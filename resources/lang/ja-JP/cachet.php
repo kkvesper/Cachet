@@ -29,7 +29,7 @@ return [
     'incidents' => [
         'none'         => 'インシデントはありません',
         'past'         => 'インシデント状況',
-        'stickied'     => 'Stickied Incidents',
+        'stickied'     => 'お知らせ',
         'scheduled'    => '計画メンテナンス',
         'scheduled_at' => ', 予定日時 :timestamp',
         'posted'       => '投稿日時 :timestamp',
