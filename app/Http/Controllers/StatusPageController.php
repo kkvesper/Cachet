@@ -64,7 +64,7 @@ class StatusPageController extends AbstractApiController
         $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())->whereBetween('occurred_at', [
             $startDate->copy()->subDays($appIncidentDays)->format('Y-m-d').' 00:00:00',
             $startDate->format('Y-m-d').' 23:59:59',
-        ])->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
+        ])->where('stickied', false)->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
             return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
         });
 
@@ -119,7 +119,7 @@ class StatusPageController extends AbstractApiController
         $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())->whereBetween('occurred_at', [
             $startDate->format('Y-m-d').' 00:00:00',
             $endDate->format('Y-m-d').' 23:59:59',
-        ])->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
+        ])->where('stickied', false)->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
             return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
         });
 
