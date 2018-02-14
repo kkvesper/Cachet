@@ -24,7 +24,11 @@
                             <strong>{{ $incident->name }}</strong>{{ $incident->isScheduled ? trans("cachet.incidents.scheduled_at", ["timestamp" => $incident->scheduled_at_diff]) : null }}
                             <br>
                             <small class="date">
-                                <a href="{{ cachet_route('incident', ['id' => $incident->id]) }}" class="links"><abbr class="timeago" data-toggle="tooltip" data-placement="right" title="{{ $incident->timestamp_formatted }}" data-timeago="{{ $incident->timestamp_iso }}"></abbr></a>
+                                <a href="{{ cachet_route('incident', ['id' => $incident->id]) }}" class="links">
+                                    <abbr data-toggle="tooltip" data-placement="right" title="{{ $incident->timestamp_formatted }}">
+                                        {{ $incident->occurred_at_diff }}
+                                    </abbr>
+                                </a>
                             </small>
                         </div>
                         <div class="panel-body markdown-body">

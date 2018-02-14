@@ -12,7 +12,6 @@
 namespace CachetHQ\Cachet\Presenters\Traits;
 
 use CachetHQ\Cachet\Services\Dates\DateFactory;
-use Illuminate\Support\Facades\Config;
 
 /**
  * This is the timestamps trait.
@@ -60,6 +59,10 @@ trait TimestampsTrait
      */
     protected function incidentDateFormat()
     {
-        return Config::get('setting.incident_date_format', 'l jS F Y H:i:s');
+        $locale = app('translator')->getLocale();
+        $defaultFormat = config('setting.incident_date_format', 'l jS F Y H:i:s');
+        $format = config("localization.incident_date_format.{$locale}", $defaultFormat);
+
+        return $format;
     }
 }

@@ -67,9 +67,11 @@ if (!function_exists('formatted_date')) {
      */
     function formatted_date($date)
     {
-        $dateFormat = Config::get('setting.date_format', 'jS F Y');
+        $locale = app('translator')->getLocale();
+        $defaultFormat = config('setting.date_format', 'jS F Y');
+        $format = config("localization.date_format.{$locale}", $defaultFormat);
 
-        return (new Date($date))->format($dateFormat);
+        return (new Date($date))->format($format);
     }
 }
 
