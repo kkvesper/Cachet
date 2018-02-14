@@ -1,0 +1,11 @@
+Dockerfile
+docker-compose.yml
+.dockerignore
+.git
+.gitignore
+dist/*
+
+vendor/
+
+bootstrap/cache/*
+bootstrap/cachet/*
