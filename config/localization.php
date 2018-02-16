@@ -4,6 +4,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Locales supported
+    |--------------------------------------------------------------------------
+    |
+    | List of locales used for the language selector and the incident translations.
+    */
+
+    'locales' => [
+        'ja' => '日本語',
+        'en' => 'English',
+        'ko' => '한국어',
+        'zh-CN' => '中文(简体)',
+        'zh-TW' => '中文(台灣)',
+        'de' => 'Deutsch',
+        'es' => 'Español',
+        'fr' => 'Français',
+        'it' => 'Italiano',
+        'id' => 'Bahasa Indonesia',
+        'ms' => 'Bahasa Melayu',
+        'th' => 'ไทย',
+        'tl' => 'Tagalog',
+        'vi' => 'Tiếng Việt',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Date format
     |--------------------------------------------------------------------------
     |

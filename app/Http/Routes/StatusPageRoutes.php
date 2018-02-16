@@ -63,6 +63,11 @@ class StatusPageRoutes
                 'as'   => 'get:component_shield',
                 'uses' => 'StatusPageController@showComponentBadge',
             ]);
+
+            $router->post('locale', [
+                'as'   => 'post:switch-locale',
+                'uses' => 'StatusPageController@switchlocale',
+            ]);
         });
     }
 }

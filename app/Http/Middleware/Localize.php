@@ -68,16 +68,29 @@ class Localize
             return $next($request);
         }
 
-        $requestedLanguages = $request->getLanguages();
-        $userLanguage = $this->config->get('app.locale');
-        $langs = $this->config->get('langs');
+        $userLanguage = null;
 
-        foreach ($requestedLanguages as $language) {
-            $language = str_replace('_', '-', $language);
+        // Check if a cookie with the locale is set
+        if ($request->hasCookie('locale')) {
+            $locale = $request->cookie('locale');
 
-            if (isset($langs[$language])) {
-                $userLanguage = $language;
-                break;
+            if (array_key_exists($locale, config('localization.locales'))) {
+                $userLanguage = $locale;
+            }
+        }
+
+        if (!$userLanguage) {
+            $requestedLanguages = $request->getLanguages();
+            $userLanguage = $this->config->get('app.locale');
+            $langs = $this->config->get('langs');
+
+            foreach ($requestedLanguages as $language) {
+                $language = str_replace('_', '-', $language);
+
+                if (isset($langs[$language])) {
+                    $userLanguage = $language;
+                    break;
+                }
             }
         }
 

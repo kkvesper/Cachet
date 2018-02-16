@@ -61,6 +61,17 @@
     </style>
     @endif
 
+    <style type="text/css">
+        #locale-switcher {
+            text-align: right;
+        }
+
+        #locales {
+            border-color: transparent;
+            background: transparent;
+        }
+    </style>
+
     <script type="text/javascript">
         var Global = {};
 
@@ -85,10 +96,33 @@
     @include('partials.banner')
 
     <div class="container" id="app">
+
+        <form action="{{ url('/locale') }}" id="locale-switcher" method="post">
+            {{ csrf_field() }}
+            <select name="locale" id="locales">
+                @foreach(config('localization.locales', []) as $locale => $label)
+                    <option value="{{ $locale }}" {{ $locale === app('translator')->getLocale() ? 'selected' : '' }}>
+                        {{ $label }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
+
         @yield('content')
     </div>
 
     @yield('bottom-content')
+
+    <script src="{{ mix('dist/js/all.js') }}"></script>
+    <script>
+        $(function () {
+            // Locale switcher
+            var $locales = $('#locales');
+
+            $locales.on('change', function () {
+                $('#locale-switcher').submit();
+            });
+        });
+    </script>
 </body>
-<script src="{{ mix('dist/js/all.js') }}"></script>
 </html>

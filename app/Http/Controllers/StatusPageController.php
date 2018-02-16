@@ -21,6 +21,7 @@ use CachetHQ\Cachet\Repositories\Metric\MetricRepository;
 use CachetHQ\Cachet\Services\Dates\DateFactory;
 use Exception;
 use GrahamCampbell\Binput\Facades\Binput;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -230,5 +231,25 @@ class StatusPageController extends AbstractApiController
         );
 
         return Response::make($badge, 200, ['Content-Type' => 'image/svg+xml']);
+    }
+
+    /**
+     * Switch locale.
+     *
+     * @param \Illuminate\Http\Request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function switchLocale(Request $request)
+    {
+        $locales = config('localization.locales');
+        $locale = $request->input('locale');
+
+        if (!array_key_exists($locale, $locales)) {
+            return back();
+        }
+
+        $localeCookie = cookie('locale', $locale);
+
+        return back()->withCookie($localeCookie);
     }
 }
