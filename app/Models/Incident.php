@@ -181,6 +181,16 @@ class Incident extends Model implements HasPresenter
     }
 
     /**
+     * Has many translations.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations()
+    {
+        return $this->hasMany(IncidentTranslation::class)->latest();
+    }
+
+    /**
      * Finds all visible incidents.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

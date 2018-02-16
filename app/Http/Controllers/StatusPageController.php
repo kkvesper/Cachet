@@ -62,12 +62,18 @@ class StatusPageController extends AbstractApiController
         $appIncidentDays = (int) Config::get('setting.app_incident_days', 1);
         $incidentDays = array_pad([], $appIncidentDays, null);
 
-        $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())->whereBetween('occurred_at', [
-            $startDate->copy()->subDays($appIncidentDays)->format('Y-m-d').' 00:00:00',
-            $startDate->format('Y-m-d').' 23:59:59',
-        ])->where('stickied', false)->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
-            return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
-        });
+        $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())
+            ->with('translations')
+            ->whereBetween('occurred_at', [
+                $startDate->copy()->subDays($appIncidentDays)->format('Y-m-d').' 00:00:00',
+                $startDate->format('Y-m-d').' 23:59:59',
+            ])
+            ->where('stickied', false)
+            ->orderBy('occurred_at', 'desc')
+            ->get()
+            ->groupBy(function (Incident $incident) {
+                return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
+            });
 
         // Add in days that have no incidents
         if (Config::get('setting.only_disrupted_days') === false) {
@@ -117,12 +123,18 @@ class StatusPageController extends AbstractApiController
             $endDate = Date::createFromFormat('Y-m-d', array_values($selectedDays)[0]);
         }
 
-        $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())->whereBetween('occurred_at', [
-            $startDate->format('Y-m-d').' 00:00:00',
-            $endDate->format('Y-m-d').' 23:59:59',
-        ])->where('stickied', false)->orderBy('occurred_at', 'desc')->get()->groupBy(function (Incident $incident) {
-            return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
-        });
+        $allIncidents = Incident::where('visible', '>=', (int) !Auth::check())
+            ->with('translations')
+            ->whereBetween('occurred_at', [
+                $startDate->format('Y-m-d').' 00:00:00',
+                $endDate->format('Y-m-d').' 23:59:59',
+            ])
+            ->where('stickied', false)
+            ->orderBy('occurred_at', 'desc')
+            ->get()
+            ->groupBy(function (Incident $incident) {
+                return app(DateFactory::class)->make($incident->occurred_at)->toDateString();
+            });
 
         // Sort the array so it takes into account the added days
         $allIncidents = $allIncidents->sortBy(function ($value, $key) {

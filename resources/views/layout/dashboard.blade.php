@@ -34,6 +34,21 @@
     <link rel="stylesheet" href="{{ mix('dist/css/dashboard/dashboard.css') }}">
     @yield('css')
 
+    <style type="text/css">
+        .collapse {
+            display: none;
+        }
+
+        .collapse.in {
+            display: block;
+        }
+
+        .translations-content {
+            margin-top: 10px;
+            border: 0;
+        }
+    </style>
+
     @include('partials.crowdin')
 
     <script src="{{ mix('dist/js/manifest.js') }}"></script>

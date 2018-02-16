@@ -20,6 +20,7 @@ use CachetHQ\Cachet\Models\Component;
 use CachetHQ\Cachet\Models\ComponentGroup;
 use CachetHQ\Cachet\Models\Incident;
 use CachetHQ\Cachet\Models\IncidentTemplate;
+use CachetHQ\Cachet\Models\IncidentTranslation;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Routing\Controller;
@@ -126,6 +127,24 @@ class IncidentController extends Controller
                 ->withInput(Binput::all())
                 ->withTitle(sprintf('%s %s', trans('dashboard.notifications.whoops'), trans('dashboard.incidents.add.failure')))
                 ->withErrors($e->getMessageBag());
+        }
+
+        $translations = request('translations');
+
+        foreach ($translations as $locale => $translation) {
+            $name = $translation['name'];
+            $message = $translation['message'];
+
+            if (!empty($name) || !empty($message)) {
+                $incidentTranslation = new IncidentTranslation([
+                    'incident_id' => $incident->getKey(),
+                    'locale' => $locale,
+                    'name' => $name,
+                    'message' => $message,
+                ]);
+
+                $incidentTranslation->save();
+            }
         }
 
         return cachet_redirect('dashboard.incidents')
@@ -259,6 +278,40 @@ class IncidentController extends Controller
 
         if ($incident->component) {
             $incident->component->update(['status' => Binput::get('component_status')]);
+        }
+
+        $translations = request('translations');
+
+        foreach ($translations as $locale => $translation) {
+            $name = $translation['name'];
+            $message = $translation['message'];
+
+            $incidentTranslation = IncidentTranslation::where('incident_id', $incident->id)
+                ->where('locale', $locale)
+                ->first();
+
+            // Remove translation
+            if ($incidentTranslation && empty($name) && empty($message)) {
+                $incidentTranslation->delete();
+            }
+
+            // Update or store translation
+            if (!empty($name) || !empty($message)) {
+                if ($incidentTranslation) {
+                    $incidentTranslation->name = $name;
+                    $incidentTranslation->message = $message;
+                    $incidentTranslation->save();
+                } else {
+                    $incidentTranslation = new IncidentTranslation([
+                        'incident_id' => $incident->getKey(),
+                        'locale' => $locale,
+                        'name' => $name,
+                        'message' => $message,
+                    ]);
+
+                    $incidentTranslation->save();
+                }
+            }
         }
 
         return cachet_redirect('dashboard.incidents.edit', ['id' => $incident->id])

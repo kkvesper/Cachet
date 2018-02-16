@@ -19,7 +19,12 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="incident-name">{{ trans('forms.incidents.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="incident-name" required value="{{$incident->name}}" placeholder="{{ trans('forms.incidents.name') }}">
+                        <div class="input-group">
+                            <span class="input-group-addon text-uppercase">
+                                <strong>JA</strong>
+                            </span>
+                            <input type="text" class="form-control" name="name" id="incident-name" required value="{{$incident->name}}" placeholder="{{ trans('forms.incidents.name') }}">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="incident-name">{{ trans('forms.incidents.status') }}</label><br>
@@ -100,6 +105,68 @@
                         <label>{{ trans('forms.incidents.message') }}</label>
                         <div class="markdown-control">
                             <textarea name="message" class="form-control autosize" rows="5" required>{{ $incident->message }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse-translations" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-translations" role="button">
+                                    Translations
+                                    <i class="ion ion-arrow-down-b"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-translations" class="panel-collapse collapse" aria-labelledby="Translations">
+                            <div class="panel-body">
+                                @php
+                                    $locales = config('localization.locales');
+                                    unset($locales['ja']);
+                                @endphp
+                                <ul class="nav nav-tabs" role="tablist">
+                                    @foreach($locales as $locale => $label)
+                                        <li role="presentation" class="{{ $loop->first ? 'active' : '' }}">
+                                            <a href="#name-{{ $locale }}" aria-controls="name-{{ $locale }}" role="tab" data-toggle="tab" class="text-uppercase">
+                                                <span title="{{ $label }}">
+                                                    {{ $locale }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="tab-content translations-content">
+                                    @foreach($locales as $locale => $label)
+                                        @php
+                                            $translation = array_first($incident->translations, function ($translation) use ($locale) {
+                                                return ($translation->locale === $locale);
+                                            });
+
+                                            $sanitizedLocale = str_replace('-', '', $locale);
+                                        @endphp
+                                        <div role="tabpanel" class="tab-pane {{ $loop->first ? 'active' : '' }}" id="name-{{ $locale }}">
+                                            <div class="form-group">
+                                                <label for="incident-name-{{ $locale }}">
+                                                    {{ trans('forms.incidents.name') }}
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon text-uppercase" title="{{ $label }}">
+                                                        <strong>{{ $locale }}</strong>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="translations[{{ $locale }}][name]" id="incident-name-{{ $locale }}" value="{{ Binput::old("names.{$locale}", $translation ? $translation->name : '') }}" placeholder="{{ trans('forms.incidents.name') }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="incident-message-{{ $locale }}">
+                                                    {{ trans('forms.incidents.message') }}
+                                                </label>
+                                                <div class="markdown-control">
+                                                    <textarea name="translations[{{ $locale }}][message]" id="incident-message-{{ $locale }}" class="form-control autosize" rows="5">{{ Binput::old("messages.{$locale}", $translation ? $translation->message : '') }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

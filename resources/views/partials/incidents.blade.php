@@ -9,6 +9,26 @@
                         <i class="{{ $incident->latest_icon }}"></i>
                     </div>
                 </div>
+                @php
+                    $translation = array_first($incident->translations, function ($translation) {
+                        $locale = app('translator')->getLocale();
+
+                        return ($translation->locale === $locale);
+                    });
+
+                    $name = $incident->name;
+                    $message = $incident->formatted_message;
+
+                    if ($translation) {
+                        if (!empty($translation->name)) {
+                            $name = $translation->name;
+                        }
+
+                        if (!empty($translation->message)) {
+                            $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($translation->message);
+                        }
+                    }
+                @endphp
                 <div class="col-xs-10 col-xs-offset-2 col-sm-11 col-sm-offset-0">
                     <div class="panel panel-message incident">
                         <div class="panel-heading">
@@ -21,7 +41,7 @@
                             @if($incident->component)
                             <span class="label label-default">{{ $incident->component->name }}</span>
                             @endif
-                            <strong>{{ $incident->name }}</strong>{{ $incident->isScheduled ? trans("cachet.incidents.scheduled_at", ["timestamp" => $incident->scheduled_at_diff]) : null }}
+                            <strong>{{ $name }}</strong>{{ $incident->isScheduled ? trans("cachet.incidents.scheduled_at", ["timestamp" => $incident->scheduled_at_diff]) : null }}
                             <br>
                             <small class="date">
                                 <a href="{{ cachet_route('incident', ['id' => $incident->id]) }}" class="links">
@@ -32,7 +52,7 @@
                             </small>
                         </div>
                         <div class="panel-body markdown-body">
-                            {!! $incident->formatted_message !!}
+                            {!! $message !!}
                         </div>
                         @if($incident->updates->isNotEmpty())
                         <div class="list-group">

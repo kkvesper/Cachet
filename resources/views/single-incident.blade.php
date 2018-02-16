@@ -8,13 +8,35 @@
 @include('partials.nav')
 @stop
 
+
+@php
+    $translation = array_first($incident->translations, function ($translation) {
+        $locale = app('translator')->getLocale();
+
+        return ($translation->locale === $locale);
+    });
+
+    $name = $incident->name;
+    $message = $incident->formatted_message;
+
+    if ($translation) {
+        if (!empty($translation->name)) {
+            $name = $translation->name;
+        }
+
+        if (!empty($translation->message)) {
+            $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($translation->message);
+        }
+    }
+@endphp
+
 @section('content')
-<h1>{{ $incident->name }} <small>{{ $incident->occurred_at_formatted }}</small></h1>
+<h1>{{ $name }} <small>{{ $incident->occurred_at_formatted }}</small></h1>
 
 <hr>
 
 <div class="markdown-body">
-    {!! $incident->formatted_message !!}
+    {!! $message !!}
 </div>
 
 @if($incident->updates)
