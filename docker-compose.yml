@@ -1,0 +1,60 @@
+version: "3.2"
+services:
+  db:
+    image: postgres:9.6-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=cachet
+      - POSTGRES_PASSWORD=cachet
+  web:
+    build: .
+    image: app
+    command: ./scripts/start.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - APP_URL=http://localhost
+      - APP_KEY=base64:KkuNOgTVokPVZPeTjdaXJv8RZj54aCouWTDT0BAKv8w=
+      - DB_DRIVER=pgsql
+      - DB_HOST=db
+      - DB_DATABASE=cachet
+      - DB_USERNAME=cachet
+      - DB_PASSWORD=cachet
+      - DB_PORT=5432
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_DRIVER=database
+      - CACHET_BEACON=false
+      - CACHET_EMOJI=false
+      - CACHET_AUTO_TWITTER=false
+      - MAIL_DRIVER=log
+
+  test:
+    build: .
+    image: app
+    command: ./scripts/test.sh
+    volumes:
+      - .:/code
+
+  artifact:
+    build: .
+    image: app
+    command: ./scripts/build.sh
+    volumes:
+      - ./dist:/dist
+    environment:
+      - HOST_USER_ID
+      - HOST_USER_GID
+
+volumes:
+  dbdata:
+
