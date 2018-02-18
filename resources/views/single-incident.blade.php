@@ -8,24 +8,31 @@
 @include('partials.nav')
 @stop
 
-
 @php
-    $translation = array_first($incident->translations, function ($translation) {
-        $locale = app('translator')->getLocale();
+    $appLocale = app('translator')->getLocale();
 
-        return ($translation->locale === $locale);
+    $translation = array_first($incident->translations, function ($translation) use ($appLocale) {
+        return ($translation->locale === $appLocale);
+    });
+
+    $englishTranslation = array_first($incident->translations, function ($translation) {
+        return ($translation->locale === 'en');
     });
 
     $name = $incident->name;
     $message = $incident->formatted_message;
 
-    if ($translation) {
+    if ($translation || ($appLocale !== 'ja' && $englishTranslation)) {
         if (!empty($translation->name)) {
             $name = $translation->name;
+        } elseif (!empty($englishTranslation->name)) {
+            $name = $englishTranslation->name;
         }
 
         if (!empty($translation->message)) {
             $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($translation->message);
+        } elseif (!empty($englishTranslation->message)) {
+            $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($englishTranslation->message);
         }
     }
 @endphp

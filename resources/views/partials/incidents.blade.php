@@ -1,3 +1,6 @@
+@php
+    $appLocale = app('translator')->getLocale();
+@endphp
 <h4>{{ formatted_date($date) }}</h4>
 <div class="timeline">
     <div class="content-wrapper">
@@ -10,22 +13,28 @@
                     </div>
                 </div>
                 @php
-                    $translation = array_first($incident->translations, function ($translation) {
-                        $locale = app('translator')->getLocale();
+                    $translation = array_first($incident->translations, function ($translation) use ($appLocale) {
+                        return ($translation->locale === $appLocale);
+                    });
 
-                        return ($translation->locale === $locale);
+                    $englishTranslation = array_first($incident->translations, function ($translation) {
+                        return ($translation->locale === 'en');
                     });
 
                     $name = $incident->name;
                     $message = $incident->formatted_message;
 
-                    if ($translation) {
+                    if ($translation || ($appLocale !== 'ja' && $englishTranslation)) {
                         if (!empty($translation->name)) {
                             $name = $translation->name;
+                        } elseif (!empty($englishTranslation->name)) {
+                            $name = $englishTranslation->name;
                         }
 
                         if (!empty($translation->message)) {
                             $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($translation->message);
+                        } elseif (!empty($englishTranslation->message)) {
+                            $message = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($englishTranslation->message);
                         }
                     }
                 @endphp
