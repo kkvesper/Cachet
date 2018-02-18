@@ -288,6 +288,18 @@ class IncidentPresenter extends BasePresenter implements Arrayable
     }
 
     /**
+     * Return the translations.
+     *
+     * @return array
+     */
+    public function translations()
+    {
+        $translations = $this->wrappedObject->translations;
+
+        return $translations->keyBy('locale');
+    }
+
+    /**
      * Convert the presenter instance to an array.
      *
      * @return string[]
@@ -306,6 +318,7 @@ class IncidentPresenter extends BasePresenter implements Arrayable
             'occurred_at'         => $this->occurred_at(),
             'created_at'          => $this->created_at(),
             'updated_at'          => $this->updated_at(),
+            'translations'        => $this->translations(),
         ]);
     }
 }

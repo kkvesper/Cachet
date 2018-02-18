@@ -32,7 +32,7 @@ class IncidentController extends AbstractApiController
     {
         $incidentVisibility = app(Guard::class)->check() ? 0 : 1;
 
-        $incidents = Incident::where('visible', '>=', $incidentVisibility);
+        $incidents = Incident::where('visible', '>=', $incidentVisibility)->with('translations');
 
         $incidents->search(Binput::except(['sort', 'order', 'per_page']));
 
