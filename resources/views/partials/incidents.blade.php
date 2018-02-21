@@ -5,7 +5,7 @@
 <div class="timeline">
     <div class="content-wrapper">
         @forelse($incidents as $incident)
-        <div class="moment {{ $loop->first ? 'first' : null }}">
+        <div class="moment {{ $loop->first ? 'first' : null }}" data-date="{{ $incident->occurred_at_iso }}">
             <div class="row event clearfix">
                 <div class="col-sm-1">
                     <div class="status-icon status-{{ $incident->latest_human_status }}" data-toggle="tooltip" title="{{ $incident->latest_human_status }}" data-placement="left">

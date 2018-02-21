@@ -145,11 +145,34 @@
                         .attr('data-title', date)
                         .attr('data-original-title', date)
                         .html(relativeTime);
-                });;
-            };
+                });
+            }
 
             updateRelativeDates();
             setInterval(updateRelativeDates, 60 * 1000); // Update every minutes
+
+            // Rebuild "grouped incidents" based on user's local time
+            const $incidents = $('.moment');
+            const $jsTimelines = $('#js-timeline-incidents');
+
+            $incidents.each(function () {
+                var $this = $(this);
+                var iso = $this.data('date');
+                var localDate = moment(iso).utc().local();
+                var date = localDate.format('Y-MM-DD');
+                var label = localDate.locale(locale).format('LL');
+
+                var $timeline = $('#timeline-' + date);
+
+                if ($timeline.length === 0) {
+                    $jsTimelines.append('<h4>' + label + '</h4><div class="timeline" id="timeline-' + date + '"><div class="content-wrapper"></div></div>');
+                    $timeline = $('#timeline-' + date);
+                }
+
+                $this.appendTo($timeline);
+            });
+
+            $jsTimelines.removeClass('hidden');
         });
     </script>
 </body>
