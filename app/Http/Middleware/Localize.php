@@ -87,8 +87,25 @@ class Localize
             foreach ($requestedLanguages as $language) {
                 $language = str_replace('_', '-', $language);
 
-                if (isset($langs[$language])) {
+                if (strpos($language, '-')) {
+                    list($left, $right) = explode('-', $language);
+                    $left = strtolower($left);
+                    $right = strtoupper($right);
+
+                    $languageCode = $left;
+                    $lcid = "{$left}-{$right}";
+                } else {
+                    $languageCode = strtolower($language);
+                    $lcid = false;
+                }
+
+                if (isset($langs[$languageCode])) {
                     $userLanguage = $language;
+                    break;
+                }
+
+                if ($lcid && isset($langs[$lcid])) {
+                    $userLanguage = $lcid;
                     break;
                 }
             }
