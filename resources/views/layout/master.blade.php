@@ -6,6 +6,7 @@
 
     <meta name="env" content="{{ app('env') }}">
     <meta name="token" content="{{ csrf_token() }}">
+    <meta name="locale" content="{{ app('translator')->getLocale() }}">
 
     <link rel="alternate" type="application/atom+xml" href="{{ cachet_route('feed.atom') }}" title="{{ $site_title }} - Atom Feed">
     <link rel="alternate" type="application/rss+xml" href="{{ cachet_route('feed.rss') }}" title="{{ $site_title }} - RSS Feed">
@@ -114,14 +115,41 @@
     @yield('bottom-content')
 
     <script src="{{ mix('dist/js/all.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment-with-locales.min.js"></script>
     <script>
         $(function () {
+            // App local
+            const locale = $('meta[name="locale"]').attr('content');
+
             // Locale switcher
-            var $locales = $('#locales');
+            const $locales = $('#locales');
 
             $locales.on('change', function () {
                 $('#locale-switcher').submit();
             });
+
+            // Display relative time using user's local time
+            const relativeDates = $('.js-relative');
+
+            function updateRelativeDates() {
+                relativeDates.each(function () {
+                    var $this = $(this);
+                    var iso = $this.data('date-iso');
+
+                    var localDate = moment(iso).utc().local().locale(locale);
+
+                    var relativeTime = localDate.fromNow();
+                    var date = localDate.format('LLLL');
+
+                    $this
+                        .attr('data-title', date)
+                        .attr('data-original-title', date)
+                        .html(relativeTime);
+                });;
+            };
+
+            updateRelativeDates();
+            setInterval(updateRelativeDates, 60 * 1000); // Update every minutes
         });
     </script>
 </body>

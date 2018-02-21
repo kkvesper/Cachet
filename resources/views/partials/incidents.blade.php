@@ -54,8 +54,8 @@
                             <br>
                             <small class="date">
                                 <a href="{{ cachet_route('incident', ['id' => $incident->id]) }}" class="links">
-                                    <abbr data-toggle="tooltip" data-placement="right" title="{{ $incident->timestamp_formatted }}">
-                                        {{ $incident->occurred_at_diff }}
+                                    <abbr class="js-relative" data-date-iso="{{ $incident->occurred_at_iso }}" data-toggle="tooltip" data-placement="right" title="{{ $incident->timestamp_formatted }}">
+                                        &nbsp;
                                     </abbr>
                                 </a>
                             </small>
