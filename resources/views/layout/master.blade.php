@@ -169,27 +169,33 @@
             setInterval(updateRelativeDates, 60 * 1000); // Update every minutes
 
             // Rebuild "grouped incidents" based on user's local time
-            const $incidents = $('.moment');
-            const $jsTimelines = $('#js-timeline-incidents');
+            function groupIncidents(type) {
+                var $incidents = $('.section-' + type + ' .moment');
+                var $jsTimelines = $('#js-' + type + '-incidents');
 
-            $incidents.each(function () {
-                var $this = $(this);
-                var iso = $this.data('date');
-                var localDate = moment(iso).utc().local();
-                var date = localDate.format('Y-MM-DD');
-                var label = localDate.locale(locale).format('LL');
+                $incidents.each(function () {
+                    var $this = $(this);
+                    var iso = $this.data('date');
+                    var localDate = moment(iso).utc().local();
+                    var date = localDate.format('Y-MM-DD');
+                    var label = localDate.locale(locale).format('LL');
+                    var timelineId = type + '-timeline-' + date;
 
-                var $timeline = $('#timeline-' + date);
+                    var $timeline = $('#' + timelineId);
 
-                if ($timeline.length === 0) {
-                    $jsTimelines.append('<h4>' + label + '</h4><div class="timeline" id="timeline-' + date + '"><div class="content-wrapper"></div></div>');
-                    $timeline = $('#timeline-' + date);
-                }
+                    if ($timeline.length === 0) {
+                        $jsTimelines.append('<h4>' + label + '</h4><div class="timeline" id="' + timelineId + '"><div class="content-wrapper"></div></div>');
+                        $timeline = $('#' + timelineId);
+                    }
 
-                $this.appendTo($timeline);
-            });
+                    $this.appendTo($timeline);
+                });
 
-            $jsTimelines.removeClass('hidden');
+                $jsTimelines.removeClass('hidden')
+            }
+
+            groupIncidents('stickied');
+            groupIncidents('timeline');
         });
     </script>
 </body>
