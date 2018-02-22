@@ -28,8 +28,8 @@ return [
     // Incidents
     'incidents' => [
         'none'         => '沒有任何報告',
-        'past'         => 'Incident Status',
-        'stickied'     => 'Stickied 事件',
+        'past'         => '事件狀態',
+        'stickied'     => '通知',
         'scheduled'    => '排程維護',
         'scheduled_at' => '，於:timestamp',
         'posted'       => '簽名時間戳',

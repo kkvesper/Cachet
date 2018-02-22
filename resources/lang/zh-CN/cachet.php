@@ -28,8 +28,8 @@ return [
     // Incidents
     'incidents' => [
         'none'         => '无故障报告',
-        'past'         => '历史状态',
-        'stickied'     => '已关注的故障',
+        'past'         => '事件状态',
+        'stickied'     => '通知',
         'scheduled'    => '计划维护',
         'scheduled_at' => '，计划于 :timestamp',
         'posted'       => '发布于 :timestamp',

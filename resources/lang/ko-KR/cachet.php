@@ -29,7 +29,7 @@ return [
     'incidents' => [
         'none'         => '아무 문제도 보고되지 않음',
         'past'         => '이전 문제',
-        'stickied'     => 'Stickied Incidents',
+        'stickied'     => '공지사항',
         'scheduled'    => '예정된 유지 보수',
         'scheduled_at' => ', :timestamp 에 예정됨',
         'posted'       => '게시 됨 :timestamp',

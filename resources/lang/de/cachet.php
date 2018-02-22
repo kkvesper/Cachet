@@ -28,6 +28,7 @@ return [
     'incidents' => [
         'none'          => 'Es liegen keine Vorfälle vor',
         'past'          => 'Vergangene Vorfälle',
+        'stickied'      => 'Hinweise',
         'previous_week' => 'Vorherige Woche',
         'next_week'     => 'Nächste Woche',
         'scheduled'     => 'Geplante Wartungen',

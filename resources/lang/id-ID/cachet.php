@@ -29,7 +29,7 @@ return [
     'incidents' => [
         'none'         => 'Tidak ada insiden yang dilaporkan',
         'past'         => 'Insiden sebelumnya',
-        'stickied'     => 'Insiden sticky',
+        'stickied'     => 'Pemberitahuan',
         'scheduled'    => 'Jadwal Pemeliharaan',
         'scheduled_at' => ', dijadwalkan pada :timestamp',
         'posted'       => 'Dikirim: timestamp',

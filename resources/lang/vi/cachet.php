@@ -28,6 +28,7 @@ return [
     'incidents' => [
         'none'          => 'Không có báo cáo về sự số nào',
         'past'          => 'Sự số trong quá khứ',
+        'stickied'      => 'Các thông báo',
         'previous_week' => 'Tuần trước',
         'next_week'     => 'Tuần sau',
         'scheduled'     => 'Bảo trì định kỳ',

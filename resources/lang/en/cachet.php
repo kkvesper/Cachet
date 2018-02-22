@@ -29,7 +29,7 @@ return [
     'incidents' => [
         'none'         => 'No incidents reported',
         'past'         => 'Incident Status',
-        'stickied'     => 'Stickied Incidents',
+        'stickied'     => 'Notices',
         'scheduled'    => 'Maintenance',
         'scheduled_at' => ', scheduled :timestamp',
         'posted'       => 'Posted :timestamp',

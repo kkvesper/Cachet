@@ -28,6 +28,7 @@ return [
     'incidents' => [
         'none'          => 'No incidents reported',
         'past'          => '이전 문제',
+        'stickied'      => '공지사항',
         'previous_week' => '전 주',
         'next_week'     => '다음 주',
         'scheduled'     => '예정된 유지 보수',

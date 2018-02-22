@@ -12,32 +12,33 @@
 return [
     // Components
     'components' => [
-        'last_updated' => 'Lần cập nhật cuối :timestamp',
+        'last_updated' => 'Last updated :timestamp',
         'status'       => [
             0 => 'Unknown',
-            1 => 'Hoạt động',
-            2 => 'Vấn đề hiệu suất',
-            3 => 'Ngưng hoạt động một phần',
-            4 => 'Ngừng hoạt động toàn bộ',
+            1 => 'Operational',
+            2 => 'Performance Issues',
+            3 => 'Partial Outage',
+            4 => 'Major Outage',
         ],
         'group' => [
-            'other' => 'Các thành phần khác',
+            'other' => 'Other Components',
         ],
     ],
 
     // Incidents
     'incidents' => [
-        'none'         => 'Không có báo cáo về sự số nào',
-        'past'         => 'Sự số trong quá khứ',
-        'stickied'     => 'Các thông báo',
-        'scheduled'    => 'Bảo trì định kỳ',
-        'scheduled_at' => ', định kỳ :timestamp',
+        'none'         => 'No incidents reported',
+        'past'         => 'Istatus ng Inside',
+        'stickied'     => 'Mga Paunawa',
+        'scheduled'    => 'Maintenance',
+        'scheduled_at' => ', scheduled :timestamp',
         'posted'       => 'Posted :timestamp',
+        'posted_at'    => 'Posted at :timestamp',
         'status'       => [
-            1 => 'Đang điều tra',
-            2 => 'Xác định',
-            3 => 'Đang xem',
-            4 => 'Đã sửa',
+            1 => 'Investigating',
+            2 => 'Identified',
+            3 => 'Watching',
+            4 => 'Fixed',
         ],
     ],
 
@@ -58,8 +59,8 @@ return [
     ],
 
     'api' => [
-        'regenerate' => 'Tạo lại Khóa API',
-        'revoke'     => 'Thu hồi Khóa API',
+        'regenerate' => 'Regenerate API Key',
+        'revoke'     => 'Revoke API Key',
     ],
 
     // Metrics
@@ -67,8 +68,8 @@ return [
         'filter' => [
             'last_hour' => 'Last Hour',
             'hourly'    => 'Last 12 Hours',
-            'weekly'    => 'Tuần',
-            'monthly'   => 'Tháng',
+            'weekly'    => 'Week',
+            'monthly'   => 'Month',
         ],
     ],
 
@@ -76,7 +77,7 @@ return [
     'subscriber' => [
         'subscribe'   => 'Subscribe to get the updates',
         'unsubscribe' => 'Unsubscribe at :link',
-        'button'      => 'Đăng ký',
+        'button'      => 'Subscribe',
         'manage'      => [
             'no_subscriptions' => 'You\'re currently subscribed to all updates.',
             'my_subscriptions' => 'You\'re currently subscribed to the following updates.',
@@ -94,12 +95,12 @@ return [
     ],
 
     'signup' => [
-        'title'    => 'Đăng ký',
-        'username' => 'Tên người dùng',
+        'title'    => 'Sign Up',
+        'username' => 'Username',
         'email'    => 'Email',
-        'password' => 'Mật khẩu',
-        'success'  => 'Tài khoản của bạn đã được tạo.',
-        'failure'  => 'Có lỗi xảy ra khi đăng ký.',
+        'password' => 'Password',
+        'success'  => 'Your account has been created.',
+        'failure'  => 'Something went wrong with the signup.',
     ],
 
     'system' => [
@@ -112,7 +113,7 @@ return [
         'subscribe' => [
             'title'  => 'Subscribe to component updates',
             'body'   => 'Enter your email address to subscribe to updates for this component. If you\'re already subscribed, you\'ll already receive emails for this component.',
-            'button' => 'Đăng ký',
+            'button' => 'Subscribe',
         ],
     ],
 
@@ -121,7 +122,7 @@ return [
     'description'     => 'Stay up to date with the latest service updates from :app.',
     'powered_by'      => 'Powered by <a href="https://cachethq.io" class="links">Cachet</a>.',
     'timezone'        => 'Times are shown in :timezone.',
-    'about_this_site' => 'Về trang web này',
+    'about_this_site' => 'About This Site',
     'rss-feed'        => 'RSS',
     'atom-feed'       => 'Atom',
     'feed'            => 'Status Feed',

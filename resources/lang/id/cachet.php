@@ -28,6 +28,7 @@ return [
     'incidents' => [
         'none'          => 'No incidents reported',
         'past'          => 'Insiden sebelumnya',
+        'stickied'      => 'Pemberitahuan',
         'previous_week' => 'Pekan sebelumnya',
         'next_week'     => 'Pekan selanjutnya',
         'scheduled'     => 'Jadwal Pemeliharaan',

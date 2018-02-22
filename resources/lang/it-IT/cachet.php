@@ -29,7 +29,7 @@ return [
     'incidents' => [
         'none'         => 'Nessun incidente segnalato',
         'past'         => 'Problemi passati',
-        'stickied'     => 'Incidenti Fissati',
+        'stickied'     => 'Avvisi',
         'scheduled'    => 'Manutenzione programmata',
         'scheduled_at' => ', programmata il :timestamp',
         'posted'       => 'Pubblicato :timestamp',
