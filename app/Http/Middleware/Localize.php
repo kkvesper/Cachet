@@ -100,7 +100,7 @@ class Localize
                 }
 
                 if (isset($langs[$languageCode])) {
-                    $userLanguage = $language;
+                    $userLanguage = $languageCode;
                     break;
                 }
 
